@@ -12,9 +12,18 @@ class Room(CommonModel):
         PRIVATE_ROOM = ("private_room", "Private Room")
         SHARED_ROOM = ("shared_room", "Shared Room")
 
+    name = models.CharField(
+        max_length=200,
+    )
     owner = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
+    )
+    category = models.ForeignKey(
+        "categories.Category",
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
     )
     country = models.CharField(
         max_length=50,
@@ -27,7 +36,10 @@ class Room(CommonModel):
     address = models.CharField(
         max_length=250,
     )
-    room_kind = models.CharField(max_length=150, choices=RoomKindChoices.choices)
+    kind = models.CharField(
+        max_length=150,
+        choices=RoomKindChoices.choices,
+    )
     price = models.PositiveIntegerField()
     toilet_num = models.PositiveIntegerField()
     room_num = models.PositiveIntegerField()
@@ -40,6 +52,9 @@ class Room(CommonModel):
 
     description = models.TextField()
 
+    def __str__(self) -> str:
+        return self.name
+
 
 class Amenity(CommonModel):
 
@@ -51,3 +66,9 @@ class Amenity(CommonModel):
         null=True,
         blank=True,
     )
+
+    def __str__(self) -> str:
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Amenities"
