@@ -14,12 +14,14 @@ class Experience(CommonModel):
     host = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
+        related_name="experiences",
     )
     category = models.ForeignKey(
         "categories.Category",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name="experiences",
     )
     country = models.CharField(
         max_length=50,
@@ -34,9 +36,7 @@ class Experience(CommonModel):
     )
     price = models.PositiveIntegerField()
 
-    perks = models.ManyToManyField(
-        "experiences.Perk",
-    )
+    perks = models.ManyToManyField("experiences.Perk", related_name="experiences")
     start = models.TimeField()
     end = models.TimeField()
 

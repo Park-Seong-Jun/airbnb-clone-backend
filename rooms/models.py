@@ -18,12 +18,14 @@ class Room(CommonModel):
     owner = models.ForeignKey(
         "users.User",
         on_delete=models.CASCADE,
+        related_name="rooms",
     )
     category = models.ForeignKey(
         "categories.Category",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
+        related_name="rooms",
     )
     country = models.CharField(
         max_length=50,
@@ -46,14 +48,23 @@ class Room(CommonModel):
     pet_friendly = models.BooleanField(
         default=True,
     )
-    amenities = models.ManyToManyField(
-        "rooms.Amenity",
-    )
+    amenities = models.ManyToManyField("rooms.Amenity", related_name="rooms")
 
     description = models.TextField()
 
     def __str__(self) -> str:
         return self.name
+
+    def rating(rooms):
+        reviews_cnt = rooms.reviews.aggregate(Avg("Rating"))
+        if reviews_cnt == 0:
+            return "리뷰 없음"
+        review_avg = 0
+
+        for review in rooms.reviews.all().values("rating"):
+            review_avg += review["rating"]
+
+        return round(review_avg / reviews_cnt, 2)
 
 
 class Amenity(CommonModel):
