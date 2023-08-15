@@ -33,8 +33,8 @@ class RoomAdmin(admin.ModelAdmin):
         "updated_at",
     )
     search_fields = [
-        "name",
-        "owner__username",
+        "^name",
+        "=owner__username",
     ]
 
 
