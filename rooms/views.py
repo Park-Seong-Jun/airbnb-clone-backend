@@ -20,4 +20,22 @@ def say_hello(request):
 
 
 def see_room(request, room_id):
-    return HttpResponse(f"Room {room_id}")
+    try:
+        rooms = Room.objects.all()
+        room = rooms.get(id=room_id)
+        return render(
+            request,
+            "see_room.html",
+            {
+                "room": room,
+                "room_exist": True,
+            },
+        )
+    except Room.DoesNotExist:
+        return render(
+            request,
+            "see_room.html",
+            {
+                "room_exist": False,
+            },
+        )
