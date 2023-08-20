@@ -29,6 +29,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+THIRD_PARTY_APPS = [
+    "rest_framework",
+]
 
 SYSTEM_APPS = [
     "django.contrib.admin",
@@ -52,7 +55,7 @@ CUSTOM_APPS = [
     "direct_messages.apps.DirectMessagesConfig",
 ]
 
-INSTALLED_APPS = SYSTEM_APPS + CUSTOM_APPS
+INSTALLED_APPS = SYSTEM_APPS + THIRD_PARTY_APPS + CUSTOM_APPS
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
