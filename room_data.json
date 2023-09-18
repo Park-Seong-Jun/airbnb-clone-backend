@@ -1,0 +1,14 @@
+{
+  "name": "We are Done!",
+  "country": "한국",
+  "city": "서울",
+  "address": "서울 한강",
+  "kind": "private_room",
+  "price": 0,
+  "toilet_num": 2,
+  "room_num": 2,
+  "pet_friendly": true,
+  "description": "한강이 보이는 멋진 집",
+  "category": 3,
+  "amenities": [23232323223, 2, 3]
+}

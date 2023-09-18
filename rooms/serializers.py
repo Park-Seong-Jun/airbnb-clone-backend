@@ -33,6 +33,3 @@ class RoomListSerializer(ModelSerializer):
             "city",
             "price",
         ]
-
-    def create(self, validated_data):
-        return Room.objects.create(**validated_data)
