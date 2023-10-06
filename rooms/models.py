@@ -1,6 +1,6 @@
 from django.db import models
 from common.models import CommonModel
-from django.db.models import Avg
+from django.db.models import Avg, Count
 
 
 # Create your models here.
@@ -63,6 +63,10 @@ class Room(CommonModel):
             return "No Review"
 
         return round(reviews_avg, 2)
+
+    def counting_amenity(rooms):
+        counting = rooms.reviews.aggregate(Count("id"))["id__count"]
+        return counting
 
 
 class Amenity(CommonModel):
