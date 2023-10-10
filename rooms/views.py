@@ -157,12 +157,15 @@ class AmenityDetail(APIView):
 
 # Whole Review data in selected room
 class RoomReviews(APIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+
     def get_object(self, pk):
         try:
             return Room.objects.get(pk=pk)
         except Room.DoesNotExist:
             raise NotFound
 
+    # 한번에 보여주는 양에 따라 Review를 띄워준다.
     def get(self, request, pk):
         try:
             page = int(request.query_params.get("page", 1))
@@ -175,6 +178,19 @@ class RoomReviews(APIView):
         serializer = ReviewSerializer(room.reviews.all()[start:end], many=True)
 
         return Response(serializer.data)
+
+    def post(self, request, pk):
+        serializer = ReviewSerializer(data=request.data)
+
+        if serializer.is_valid():
+            review = serializer.save(
+                room=self.get_object(pk),
+                user=request.user,
+            )
+            serializer = ReviewSerializer(review)
+            return Response(serializer.data)
+        else:
+            return Response(serializer.errors)
 
 
 # Whole Amenity data in selected room
